@@ -1,0 +1,44 @@
+# Neer Niti Backend Dependencies
+# Python 3.14+
+
+# Web framework
+fastapi==0.115.0
+uvicorn==0.30.6
+starlette==0.38.6
+python-multipart==0.0.20
+
+# Pydantic
+pydantic==2.13.5
+pydantic-settings==2.7.1
+
+# Database
+sqlalchemy==2.0.41
+alembic==1.16.1
+aiosqlite==0.21.0
+greenlet==3.2.3
+
+# HTTP client (weather API)
+httpx==0.28.1
+httpcore>=1.0.0
+certifi>=2024.0.0
+
+# Data processing / ML
+numpy==2.5.3
+pandas==2.2.3
+scikit-learn==1.9.1
+scipy==1.18.1
+
+# Utilities
+python-dotenv==1.2.4
+python-dateutil==2.9.0.post0
+pytz==2026.5
+
+# Linting
+ruff==0.11.13
+
+# Testing
+pytest==8.4.2
+pytest-asyncio==0.23.8
+
+# Logging
+colorama==0.4.6

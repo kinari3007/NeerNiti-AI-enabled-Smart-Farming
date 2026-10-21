@@ -22,3 +22,30 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+.eggs/
+.env
+.venv
+venv/
+env/
+
+# Database files (local dev SQLite)
+*.db
+*.sqlite
+*.sqlite3
+
+# Test output artifacts
+backend/test_output*.txt
+
+# ML model artifacts (large binary — regenerate with ml/src/models/train_classifier.py)
+ml/artifacts/*.pkl
+
+# Keep metadata and gitkeeps
+!ml/artifacts/.gitkeep
+!ml/artifacts/model_metadata.json

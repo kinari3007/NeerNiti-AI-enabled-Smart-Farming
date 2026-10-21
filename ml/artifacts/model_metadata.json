@@ -1,0 +1,114 @@
+{
+  "model_version": "1.0.0",
+  "algorithm": "RandomForestClassifier",
+  "n_estimators": 200,
+  "features_numeric": [
+    "Soil_pH",
+    "Soil_Moisture",
+    "Organic_Carbon",
+    "Electrical_Conductivity",
+    "Nitrogen_Level",
+    "Phosphorus_Level",
+    "Potassium_Level",
+    "Temperature",
+    "Humidity",
+    "Rainfall",
+    "Yield_Last_Season"
+  ],
+  "features_categorical": [
+    "Soil_Type",
+    "Crop_Type",
+    "Crop_Growth_Stage",
+    "Season",
+    "Irrigation_Type",
+    "Previous_Crop",
+    "Region"
+  ],
+  "target_column": "Recommended_Fertilizer",
+  "target_classes": [
+    "Compost",
+    "DAP",
+    "MOP",
+    "NPK",
+    "SSP",
+    "Urea",
+    "Zinc Sulphate"
+  ],
+  "training_samples": 8000,
+  "test_samples": 2000,
+  "test_accuracy": 0.875,
+  "test_macro_f1": 0.751349,
+  "test_weighted_f1": 0.888941,
+  "cv_macro_f1_mean": 0.762321,
+  "cv_macro_f1_std": 0.009855,
+  "cv_fold_scores": [
+    0.748315,
+    0.759199,
+    0.775517,
+    0.771281,
+    0.757294
+  ],
+  "per_class_report": {
+    "Compost": {
+      "precision": 0.8429319371727748,
+      "recall": 0.8090452261306532,
+      "f1-score": 0.8256410256410256,
+      "support": 199.0
+    },
+    "DAP": {
+      "precision": 1.0,
+      "recall": 0.9195205479452054,
+      "f1-score": 0.9580731489741302,
+      "support": 584.0
+    },
+    "MOP": {
+      "precision": 0.9710743801652892,
+      "recall": 0.8333333333333334,
+      "f1-score": 0.8969465648854962,
+      "support": 282.0
+    },
+    "NPK": {
+      "precision": 0.8053097345132744,
+      "recall": 0.7109375,
+      "f1-score": 0.7551867219917012,
+      "support": 128.0
+    },
+    "SSP": {
+      "precision": 0.1506849315068493,
+      "recall": 0.2972972972972973,
+      "f1-score": 0.2,
+      "support": 37.0
+    },
+    "Urea": {
+      "precision": 1.0,
+      "recall": 0.932258064516129,
+      "f1-score": 0.9649415692821369,
+      "support": 620.0
+    },
+    "Zinc Sulphate": {
+      "precision": 0.5150375939849624,
+      "recall": 0.9133333333333333,
+      "f1-score": 0.6586538461538461,
+      "support": 150.0
+    },
+    "accuracy": 0.875,
+    "macro avg": {
+      "precision": 0.7550055110490215,
+      "recall": 0.7736750432222789,
+      "f1-score": 0.7513489824183337,
+      "support": 2000.0
+    },
+    "weighted avg": {
+      "precision": 0.9157485291425953,
+      "recall": 0.875,
+      "f1-score": 0.8889409823470528,
+      "support": 2000.0
+    }
+  },
+  "disclaimer": "This model predicts a fertilizer CATEGORY (classification). It does NOT determine scientifically validated nutrient quantities or application rates. Training data is from fertilizer_recommendation.csv which reflects statistical associations, not agronomic causality.",
+  "dataset_path": "D:\\NeerNiti-AI-enabled-Smart-Farming\\data\\raw\\fertilizer_recommendation.csv",
+  "artifact_paths": {
+    "pipeline": "D:\\NeerNiti-AI-enabled-Smart-Farming\\ml\\artifacts\\fertilizer_classifier.pkl",
+    "label_encoder": "D:\\NeerNiti-AI-enabled-Smart-Farming\\ml\\artifacts\\label_encoder.pkl"
+  }
+}
