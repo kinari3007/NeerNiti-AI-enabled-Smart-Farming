@@ -1,0 +1,82 @@
+.stepper {
+  display: flex;
+  gap: 0;
+  margin-bottom: var(--space-7);
+}
+
+.stepper__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.stepper__marker {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  font-family: var(--font-serif);
+  border: 2px solid var(--border-soft);
+  background-color: var(--color-surface);
+  color: var(--text-muted);
+  transition: all var(--transition-base);
+}
+
+.stepper__label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stepper__bar {
+  flex: 1;
+  height: 2px;
+  background-color: var(--border-soft);
+  margin: 0 var(--space-3);
+  min-width: 16px;
+}
+
+/* States */
+.stepper__item--active .stepper__marker {
+  border-color: var(--color-forest-green);
+  background-color: var(--color-forest-green);
+  color: #fff;
+}
+.stepper__item--active .stepper__label {
+  color: var(--text-strong);
+  font-weight: var(--fw-semibold);
+}
+
+.stepper__item--done .stepper__marker {
+  border-color: var(--color-leaf-green);
+  background-color: var(--color-leaf-green);
+  color: #fff;
+}
+.stepper__item--done .stepper__label {
+  color: var(--text-body);
+}
+.stepper__item--done .stepper__bar {
+  background-color: var(--color-leaf-green);
+}
+
+@media (max-width: 640px) {
+  .stepper__label {
+    display: none;
+  }
+  .stepper__item {
+    flex: 0 1 auto;
+  }
+  .stepper__bar {
+    min-width: 24px;
+  }
+}

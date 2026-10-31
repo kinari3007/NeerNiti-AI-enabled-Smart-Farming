@@ -1,0 +1,103 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-strong);
+}
+
+.field__req {
+  color: var(--color-harvest-gold-600);
+}
+
+.field__hint {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.field__error {
+  font-size: var(--fs-xs);
+  color: #b4472e;
+  font-weight: var(--fw-medium);
+}
+
+/* ---- Input ---- */
+.input,
+.select,
+.textarea {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  color: var(--text-strong);
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.68rem 0.9rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #a7ac9c;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-leaf-green);
+  box-shadow: 0 0 0 3px rgba(111, 150, 97, 0.18);
+}
+
+.field--error .input,
+.field--error .select,
+.field--error .textarea {
+  border-color: #d08b6f;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: var(--lh-normal);
+}
+
+/* Input with unit suffix */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-wrap .input {
+  padding-right: 3.6rem;
+}
+.input-wrap__suffix {
+  position: absolute;
+  right: 0.9rem;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* Select with chevron */
+.select-wrap {
+  position: relative;
+}
+.select {
+  appearance: none;
+  padding-right: 2.6rem;
+  cursor: pointer;
+}
+.select-wrap__chevron {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: inline-flex;
+}

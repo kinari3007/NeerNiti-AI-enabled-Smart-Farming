@@ -1,0 +1,80 @@
+/* ---- Spinner ---- */
+.spinner {
+  display: inline-block;
+  border: 2.5px solid rgba(111, 150, 97, 0.25);
+  border-top-color: var(--color-forest-green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Skeleton ---- */
+.skeleton {
+  display: block;
+  background: linear-gradient(
+    100deg,
+    var(--color-cream-200) 30%,
+    var(--color-cream-300) 50%,
+    var(--color-cream-200) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 180% 0;
+  }
+  100% {
+    background-position: -20% 0;
+  }
+}
+
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+}
+
+/* ---- Badge ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.28rem 0.7rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.badge--success {
+  background-color: var(--color-leaf-green-100);
+  color: var(--color-forest-green);
+}
+.badge--warning {
+  background-color: #f6e2d4;
+  color: #a9552f;
+}
+.badge--neutral {
+  background-color: var(--color-soft-sage);
+  color: var(--text-body);
+}
+.badge--gold {
+  background-color: var(--color-harvest-gold-100);
+  color: var(--color-harvest-gold-600);
+}
+.badge--info {
+  background-color: #dceaf0;
+  color: #2b6075;
+}

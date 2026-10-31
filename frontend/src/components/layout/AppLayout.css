@@ -1,0 +1,24 @@
+.app-layout {
+  min-height: 100vh;
+  background-color: var(--color-warm-cream);
+}
+
+.app-layout__main {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+}
+
+.app-layout__container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--space-6) var(--space-9);
+}
+
+@media (max-width: 900px) {
+  .app-layout__main {
+    margin-left: 0;
+  }
+  .app-layout__container {
+    padding: 0 var(--space-4) var(--space-8);
+  }
+}

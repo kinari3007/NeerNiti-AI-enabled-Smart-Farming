@@ -1,0 +1,26 @@
+.organic-image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-soft-sage);
+}
+
+.organic-image > svg,
+.organic-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.organic-image--blob-1 {
+  border-radius: 58% 42% 55% 45% / 48% 54% 46% 52%;
+}
+
+.organic-image--blob-2 {
+  border-radius: 44% 56% 48% 52% / 56% 44% 56% 44%;
+}
+
+.organic-image--rounded {
+  border-radius: var(--radius-xl);
+}

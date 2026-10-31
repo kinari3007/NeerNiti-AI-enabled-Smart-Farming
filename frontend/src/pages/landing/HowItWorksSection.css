@@ -1,0 +1,23 @@
+.how {
+  background-color: var(--color-soft-sage);
+  padding: var(--space-10) var(--space-5);
+}
+
+.how__inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.how__card {
+  padding: var(--space-8);
+}
+
+.how__steps {
+  margin-top: var(--space-6);
+}
+
+@media (max-width: 560px) {
+  .how__card {
+    padding: var(--space-6);
+  }
+}

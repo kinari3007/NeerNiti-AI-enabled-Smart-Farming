@@ -1,0 +1,47 @@
+.soil-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-3);
+}
+
+.soil-grid__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-4);
+  background-color: var(--color-surface-cream);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.soil-grid__label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.soil-grid__value {
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  color: var(--text-strong);
+  line-height: 1.2;
+}
+
+.soil-grid__unit {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-weight: var(--fw-medium);
+}
+
+.soil-grid__range {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.soil-grid__empty {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}

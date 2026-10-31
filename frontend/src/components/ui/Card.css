@@ -1,0 +1,33 @@
+.card {
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.card--surface {
+  background-color: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.card--cream {
+  background-color: var(--color-surface-cream);
+  border: 1px solid var(--border-subtle);
+}
+
+.card--sage {
+  background-color: var(--color-soft-sage);
+  border: 1px solid rgba(35, 77, 53, 0.08);
+}
+
+.card--forest {
+  background-color: var(--color-deep-green);
+  color: var(--text-on-dark);
+  border: 1px solid var(--border-on-dark);
+}
+
+.card--plain {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}

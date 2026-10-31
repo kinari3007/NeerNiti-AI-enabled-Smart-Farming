@@ -1,0 +1,18 @@
+.farm-switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.farm-switcher__icon {
+  color: var(--color-leaf-green);
+  display: inline-flex;
+}
+
+.farm-switcher .farm-switcher__select {
+  min-width: 180px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}

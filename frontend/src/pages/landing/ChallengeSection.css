@@ -1,0 +1,44 @@
+.challenge {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-5);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-9);
+  align-items: center;
+}
+
+.challenge__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.challenge__body {
+  color: var(--text-body);
+  font-size: var(--fs-base);
+  max-width: 50ch;
+}
+
+.challenge__art {
+  display: flex;
+  justify-content: center;
+}
+
+.challenge__blob {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1.15 / 1;
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 860px) {
+  .challenge {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding: var(--space-8) var(--space-5);
+  }
+  .challenge__art {
+    order: -1;
+  }
+}

@@ -1,0 +1,189 @@
+/* ---- Banner ---- */
+.dash-banner {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  background: radial-gradient(130% 130% at 0% 0%, #2a5a3e 0%, var(--color-deep-green) 60%);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.dash-banner__content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-banner__eyebrow {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-harvest-gold);
+}
+
+.dash-banner__title {
+  margin-top: var(--space-2);
+  font-size: var(--fs-2xl);
+  color: #fff;
+  line-height: var(--lh-snug);
+  max-width: 18ch;
+}
+
+.dash-banner__lead {
+  margin-top: var(--space-3);
+  color: var(--text-on-dark-muted);
+  max-width: 48ch;
+}
+
+.dash-banner__actions {
+  margin-top: var(--space-5);
+}
+
+.dash-banner__art {
+  width: 300px;
+  flex-shrink: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  align-self: stretch;
+  display: flex;
+}
+.dash-banner__art > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Farm bar ---- */
+.dash-farmbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--color-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+}
+
+.dash-farmbar__label {
+  display: block;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.dash-farmbar__name {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  color: var(--text-strong);
+}
+
+/* ---- Grid ---- */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.dash-section {
+  margin-bottom: var(--space-6);
+}
+.dash-grid .dash-section {
+  margin-bottom: 0;
+}
+
+.dash-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.dash-section__title {
+  font-size: var(--fs-lg);
+}
+
+.dash-notes {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.dash-notes li {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  padding-left: var(--space-4);
+  position: relative;
+}
+.dash-notes li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-harvest-gold);
+}
+
+/* ---- Quick nav ---- */
+.dash-quicknav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.dash-quicknav__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-md);
+  color: var(--color-forest-green);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+.dash-quicknav__item:hover {
+  background-color: #fff;
+  transform: translateX(3px);
+}
+
+/* ---- Recent recs ---- */
+.dash-rec-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+@media (max-width: 860px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+  .dash-banner__art {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .dash-banner {
+    padding: var(--space-6);
+  }
+  .dash-banner__title {
+    font-size: var(--fs-xl);
+  }
+}

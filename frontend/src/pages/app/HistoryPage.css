@@ -1,0 +1,33 @@
+.history-card {
+  padding: var(--space-6);
+}
+
+.history-filters {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.history-count {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.history-sprig {
+  width: 48px;
+  height: auto;
+}
+
+@media (max-width: 560px) {
+  .history-filters {
+    grid-template-columns: 1fr;
+  }
+}

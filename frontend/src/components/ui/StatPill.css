@@ -1,0 +1,25 @@
+.stat-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+  max-width: 110px;
+}
+
+.stat-pill__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-leaf-green-100);
+  color: var(--color-forest-green);
+  display: grid;
+  place-items: center;
+}
+
+.stat-pill__label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-body);
+  line-height: 1.3;
+}
