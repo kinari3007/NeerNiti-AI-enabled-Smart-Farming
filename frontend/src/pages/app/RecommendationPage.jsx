@@ -8,9 +8,11 @@ import { useAsync } from '../../hooks/useAsync'
 import { recommendationsApi, OPTIMIZATION_STATUS } from '../../api/recommendations'
 import { formatDateTime, formatMoney, formatNumber, formatPercent } from '../../utils/format'
 import { LeafMark, IconArrow, IconLeafCheck, IconSprout } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './RecommendationPage.css'
 
 export default function RecommendationPage() {
+  const { t } = useLanguage()
   const { id } = useParams()
   const load = useCallback(() => recommendationsApi.get(id), [id])
   const { data: rec, loading, error, reload } = useAsync(load, [id])
@@ -29,13 +31,13 @@ export default function RecommendationPage() {
     return (
       <div className="rec-page">
         <ErrorState
-          title="Couldn't load this recommendation"
+          title={t("Couldn't load this recommendation")}
           message={error.message}
           onRetry={reload}
         />
         <div className="rec-page__back">
           <Button as="link" to="/app/history" variant="ghost">
-            Back to history
+            {t('Back to history')}
           </Button>
         </div>
       </div>
@@ -44,7 +46,7 @@ export default function RecommendationPage() {
 
   const ml = rec.ml_classifier_suggestion
   const statusInfo = OPTIMIZATION_STATUS[rec.optimization_status] || {
-    label: rec.optimization_status,
+    label: t(rec.optimization_status),
     tone: 'neutral',
     note: '',
   }
@@ -56,7 +58,7 @@ export default function RecommendationPage() {
     <div className="rec-page">
       <div className="rec-page__top">
         <Link to="/app/history" className="rec-page__backlink">
-          ← History
+          ← {t('History')}
         </Link>
         <span className="rec-page__date">{formatDateTime(rec.created_at)}</span>
       </div>
@@ -65,24 +67,24 @@ export default function RecommendationPage() {
       <Card tone="plain" className="rec-hero">
         <div className="rec-hero__body">
           <span className="rec-hero__eyebrow">
-            <IconSprout size={18} /> Suggested fertilizer category
+            <IconSprout size={18} /> {t('Suggested fertilizer category')}
           </span>
           {ml ? (
             <>
-              <h1 className="rec-hero__fertilizer">{ml.predicted_class}</h1>
+              <h1 className="rec-hero__fertilizer">{t(ml.predicted_class)}</h1>
               {probability && (
                 <p className="rec-hero__prob">
-                  Model probability for this class: <strong>{probability}</strong>
+                  {t('Model probability for this class:')} <strong>{probability}</strong>
                 </p>
               )}
             </>
           ) : (
             <>
               <h1 className="rec-hero__fertilizer rec-hero__fertilizer--muted">
-                Not available
+                {t('Not available')}
               </h1>
               <p className="rec-hero__prob">
-                The ML category suggestion could not be produced for this request.
+                {t('The ML category suggestion could not be produced for this request.')}
               </p>
             </>
           )}
@@ -93,22 +95,21 @@ export default function RecommendationPage() {
       </Card>
 
       {/* Honest disclaimer about what the ML output means */}
-      {ml?.disclaimer && <p className="rec-disclaimer">{ml.disclaimer}</p>}
+      {ml?.disclaimer && <p className="rec-disclaimer">{t(ml.disclaimer)}</p>}
 
       {/* ---- Top classes (real softmax probabilities) ---- */}
       {ml?.top_classes?.length > 0 && (
         <Card tone="surface" className="rec-section">
-          <h2 className="rec-section__title">Model's top candidates</h2>
+          <h2 className="rec-section__title">{t("Model's top candidates")}</h2>
           <p className="rec-section__note">
-            These are the classifier's raw probabilities — a statistical signal, not a
-            calibrated certainty.
+            {t("These are the classifier's raw probabilities — a statistical signal, not a calibrated certainty.")}
           </p>
           <ul className="rec-topclasses">
             {ml.top_classes.map((tc) => {
               const pct = Math.round((tc.probability || 0) * 100)
               return (
                 <li key={tc.class} className="rec-topclass">
-                  <span className="rec-topclass__name">{tc.class}</span>
+                  <span className="rec-topclass__name">{t(tc.class)}</span>
                   <span className="rec-topclass__bar" aria-hidden="true">
                     <span className="rec-topclass__fill" style={{ width: `${pct}%` }} />
                   </span>
@@ -123,16 +124,16 @@ export default function RecommendationPage() {
       {/* ---- Optimization status ---- */}
       <Card tone="surface" className="rec-section">
         <div className="rec-section__head">
-          <h2 className="rec-section__title">Cost-optimized plan</h2>
-          <Badge tone={statusInfo.tone}>{statusInfo.label}</Badge>
+          <h2 className="rec-section__title">{t('Cost-optimized plan')}</h2>
+          <Badge tone={statusInfo.tone}>{t(statusInfo.label)}</Badge>
         </div>
-        <p className="rec-section__note">{statusInfo.note}</p>
+        <p className="rec-section__note">{t(statusInfo.note)}</p>
 
         {rec.optimization_status === 'feasible' && plan.length > 0 ? (
           <>
             {rec.estimated_total_cost != null && (
               <div className="rec-cost">
-                <span className="rec-cost__label">Estimated total cost</span>
+                <span className="rec-cost__label">{t('Estimated total cost')}</span>
                 <span className="rec-cost__value">
                   {formatMoney(rec.estimated_total_cost, rec.cost_currency || 'INR')}
                 </span>
@@ -142,18 +143,18 @@ export default function RecommendationPage() {
               {plan.map((item) => (
                 <div key={item.product_id} className="rec-plan__item">
                   <div className="rec-plan__head">
-                    <span className="rec-plan__name">{item.product_name}</span>
+                    <span className="rec-plan__name">{t(item.product_name)}</span>
                     {!item.price_verified && (
                       <Badge tone="gold">
                         {item.price_source === 'illustrative_sample'
-                          ? 'Illustrative price'
-                          : 'Unverified price'}
+                          ? t('Illustrative price')
+                          : t('Unverified price')}
                       </Badge>
                     )}
                   </div>
                   <div className="rec-plan__stats">
                     <div>
-                      <span className="rec-plan__stat-label">Quantity</span>
+                      <span className="rec-plan__stat-label">{t('Quantity')}</span>
                       <span className="rec-plan__stat-value">
                         {formatNumber(item.quantity_kg_total, 1)} kg
                         <span className="rec-plan__stat-sub">
@@ -162,22 +163,22 @@ export default function RecommendationPage() {
                       </span>
                     </div>
                     <div>
-                      <span className="rec-plan__stat-label">Unit price</span>
+                      <span className="rec-plan__stat-label">{t('Unit price')}</span>
                       <span className="rec-plan__stat-value">
                         {formatMoney(item.price_per_kg, item.currency)}/kg
                       </span>
                     </div>
                     <div>
-                      <span className="rec-plan__stat-label">Line cost</span>
+                      <span className="rec-plan__stat-label">{t('Line cost')}</span>
                       <span className="rec-plan__stat-value">
                         {formatMoney(item.cost_total, item.currency)}
                       </span>
                     </div>
                   </div>
                   <p className="rec-plan__provenance">
-                    Price source: {item.price_source}
+                    {t('Price source:')} {t(item.price_source)}
                     {item.price_recorded_at
-                      ? ` · recorded ${formatDateTime(item.price_recorded_at)}`
+                      ? ` · ${t('recorded')} ${formatDateTime(item.price_recorded_at)}`
                       : ''}
                   </p>
                 </div>
@@ -188,8 +189,7 @@ export default function RecommendationPage() {
           <div className="rec-plan-empty">
             <IconLeafCheck size={28} />
             <p>
-              No fertilizer plan was produced for this recommendation. See the notes
-              below for why, and what to adjust.
+              {t('No fertilizer plan was produced for this recommendation. See the notes below for why, and what to adjust.')}
             </p>
           </div>
         )}
@@ -198,7 +198,7 @@ export default function RecommendationPage() {
       {/* ---- Nutrient requirements & balance ---- */}
       {(rec.nutrient_requirements || balance) && (
         <Card tone="surface" className="rec-section">
-          <h2 className="rec-section__title">Nutrient requirements</h2>
+          <h2 className="rec-section__title">{t('Nutrient requirements')}</h2>
           {rec.nutrient_requirement_source && (
             <p className="rec-section__note">{rec.nutrient_requirement_source}</p>
           )}
@@ -213,24 +213,24 @@ export default function RecommendationPage() {
                 ? balance[`${key.toLowerCase()}_deficit_kg_per_ha`]
                 : null
               const label =
-                key === 'N' ? 'Nitrogen (N)' : key === 'P' ? 'Phosphorus (P₂O₅)' : 'Potassium (K₂O)'
+                key === 'N' ? t('Nitrogen (N)') : key === 'P' ? t('Phosphorus (P₂O₅)') : t('Potassium (K₂O)')
               return (
                 <div key={key} className="rec-nutrient">
                   <span className="rec-nutrient__label">{label}</span>
                   <div className="rec-nutrient__rows">
                     {req != null && (
                       <span className="rec-nutrient__row">
-                        Required <strong>{formatNumber(req, 1)} kg/ha</strong>
+                        {t('Required')} <strong>{formatNumber(req, 1)} kg/ha</strong>
                       </span>
                     )}
                     {supplied != null && (
                       <span className="rec-nutrient__row">
-                        Supplied <strong>{formatNumber(supplied, 1)} kg/ha</strong>
+                        {t('Supplied')} <strong>{formatNumber(supplied, 1)} kg/ha</strong>
                       </span>
                     )}
                     {deficit != null && deficit > 0.01 && (
                       <span className="rec-nutrient__row rec-nutrient__row--deficit">
-                        Short by {formatNumber(deficit, 1)} kg/ha
+                        {t('Short by {amount} kg/ha', { amount: formatNumber(deficit, 1) })}
                       </span>
                     )}
                   </div>
@@ -249,20 +249,20 @@ export default function RecommendationPage() {
         <div className="rec-notes-grid">
           {rec.warnings?.length > 0 && (
             <Card tone="surface" className="rec-section">
-              <h2 className="rec-section__title">Warnings</h2>
+              <h2 className="rec-section__title">{t('Warnings')}</h2>
               <ul className="rec-notes rec-notes--warn">
                 {rec.warnings.map((w, i) => (
-                  <li key={i}>{w}</li>
+                  <li key={i}>{t(w)}</li>
                 ))}
               </ul>
             </Card>
           )}
           {rec.assumptions?.length > 0 && (
             <Card tone="surface" className="rec-section">
-              <h2 className="rec-section__title">Assumptions</h2>
+              <h2 className="rec-section__title">{t('Assumptions')}</h2>
               <ul className="rec-notes">
                 {rec.assumptions.map((a, i) => (
-                  <li key={i}>{a}</li>
+                  <li key={i}>{t(a)}</li>
                 ))}
               </ul>
             </Card>
@@ -272,10 +272,10 @@ export default function RecommendationPage() {
 
       <div className="rec-page__actions">
         <Button as="link" to="/app/analyze" variant="primary" iconRight={<IconArrow />}>
-          Run another analysis
+          {t('Run another analysis')}
         </Button>
         <Button as="link" to="/app/history" variant="ghost">
-          View all recommendations
+          {t('View all recommendations')}
         </Button>
       </div>
     </div>

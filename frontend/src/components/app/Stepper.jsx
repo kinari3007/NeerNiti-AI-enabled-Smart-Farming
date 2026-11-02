@@ -1,12 +1,14 @@
 import './Stepper.css'
+import { useLanguage } from '../../context/language-context'
 
 /**
  * Stepper — horizontal progress indicator for the multi-step form.
  * steps: [{ label }]; current: 0-based index of the active step.
  */
 export default function Stepper({ steps, current }) {
+  const { t } = useLanguage()
   return (
-    <ol className="stepper" aria-label="Progress">
+    <ol className="stepper" aria-label={t('Progress')}>
       {steps.map((step, i) => {
         const state = i < current ? 'done' : i === current ? 'active' : 'upcoming'
         return (

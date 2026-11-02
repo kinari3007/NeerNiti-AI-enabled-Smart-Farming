@@ -11,6 +11,7 @@ import { useFarm } from '../../context/farm-context'
 import { useAsync } from '../../hooks/useAsync'
 import { recommendationsApi } from '../../api/recommendations'
 import { LeafSprig, IconArrow } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './HistoryPage.css'
 
 const STATUS_OPTIONS = [
@@ -22,6 +23,7 @@ const STATUS_OPTIONS = [
 ]
 
 export default function HistoryPage() {
+  const { t } = useLanguage()
   const { activeFarmId, activeFarm, hasFarms, loading: farmsLoading } = useFarm()
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('all')
@@ -47,12 +49,12 @@ export default function HistoryPage() {
 
   const header = (
     <PageHeader
-      eyebrow="History"
-      title="Your recommendation history"
+      eyebrow={t('History')}
+      title={t('Your recommendation history')}
       subtitle={
         activeFarm
-          ? `Past soil analyses and recommendations for ${activeFarm.name}.`
-          : 'Past soil analyses and fertilizer recommendations.'
+          ? t('Past soil analyses and recommendations for {farm}.', { farm: activeFarm.name })
+          : t('Past soil analyses and fertilizer recommendations.')
       }
       actions={<FarmSwitcher />}
     />
@@ -66,11 +68,11 @@ export default function HistoryPage() {
         <Card tone="surface">
           <EmptyState
             illustration={<LeafSprig className="history-sprig" />}
-            title="No farms yet"
-            message="Add your first farm and run a soil analysis to start building your history."
+            title={t('No farms yet')}
+            message={t('Add your first farm and run a soil analysis to start building your history.')}
             action={
               <Button as="link" to="/app/analyze" variant="primary" iconRight={<IconArrow />}>
-                Analyze My Soil
+                {t('Analyze My Soil')}
               </Button>
             }
           />
@@ -90,13 +92,13 @@ export default function HistoryPage() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by fertilizer (e.g. Urea)"
-            aria-label="Search recommendations"
+            placeholder={t('Search by fertilizer (e.g. Urea)')}
+            aria-label={t('Search recommendations')}
           />
-          <Select value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Filter by status">
+          <Select value={status} onChange={(e) => setStatus(e.target.value)} aria-label={t('Filter by status')}>
             {STATUS_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
-                {o.label}
+                {t(o.label)}
               </option>
             ))}
           </Select>
@@ -114,7 +116,7 @@ export default function HistoryPage() {
         {/* Error */}
         {error && (
           <ErrorState
-            title="Couldn't load history"
+            title={t("Couldn't load history")}
             message={error.message}
             onRetry={reload}
           />
@@ -124,11 +126,11 @@ export default function HistoryPage() {
         {!loading && !error && (data || []).length === 0 && (
           <EmptyState
             illustration={<LeafSprig className="history-sprig" />}
-            title="No recommendations yet"
-            message="Once you run a soil analysis, your recommendations will appear here for easy reference."
+            title={t('No recommendations yet')}
+            message={t('Once you run a soil analysis, your recommendations will appear here for easy reference.')}
             action={
               <Button as="link" to="/app/analyze" variant="primary" iconRight={<IconArrow />}>
-                Run your first analysis
+                {t('Run your first analysis')}
               </Button>
             }
           />
@@ -137,8 +139,8 @@ export default function HistoryPage() {
         {/* Filtered-to-empty */}
         {!loading && !error && (data || []).length > 0 && filtered.length === 0 && (
           <EmptyState
-            title="No matches"
-            message="No recommendations match your search or filter. Try adjusting them."
+            title={t('No matches')}
+            message={t('No recommendations match your search or filter. Try adjusting them.')}
           />
         )}
 
@@ -146,8 +148,10 @@ export default function HistoryPage() {
         {!loading && !error && filtered.length > 0 && (
           <>
             <p className="history-count">
-              Showing {filtered.length} of {(data || []).length} recommendation
-              {(data || []).length === 1 ? '' : 's'}
+              {t('Showing {shown} of {total} recommendations', {
+                shown: filtered.length,
+                total: (data || []).length,
+              })}
             </p>
             <div className="history-list">
               {filtered.map((rec) => (

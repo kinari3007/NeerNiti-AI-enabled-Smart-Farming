@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
 import { session } from '../../api/session'
+import { useLanguage } from '../../context/language-context'
 import './AppLayout.css'
 
 export default function AppLayout() {
@@ -11,6 +12,7 @@ export default function AppLayout() {
   // after it's changed on the Profile page.
   useLocation()
   const name = session.getName() || 'Farmer'
+  const { t } = useLanguage()
 
   return (
     <div className="app-layout">
@@ -20,7 +22,7 @@ export default function AppLayout() {
           <TopBar
             onMenu={() => setMenuOpen(true)}
             name={name}
-            subtitle="Let's make your farm more productive with the right fertilizer."
+            subtitle={t("Let's make your farm more productive with the right fertilizer.")}
           />
           <Outlet />
         </div>

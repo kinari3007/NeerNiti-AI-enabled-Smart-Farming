@@ -1,5 +1,6 @@
 import { Field, Input, Select } from '../../../components/ui/Field'
 import { EC_UNITS, MOISTURE_UNITS, NPK_UNITS, OC_UNITS } from '../../../api/soil'
+import { useLanguage } from '../../../context/language-context'
 import './analyze.css'
 
 /**
@@ -10,26 +11,26 @@ import './analyze.css'
  * required whenever a value is entered — mirroring the backend validation.
  */
 export default function StepSoil({ soil, setSoil, errors }) {
+  const { t } = useLanguage()
   const update = (key) => (e) => setSoil((s) => ({ ...s, [key]: e.target.value }))
 
   return (
     <div className="step">
       <div className="step__intro">
-        <h2 className="step__title">Enter your soil measurements</h2>
+        <h2 className="step__title">{t('Enter your soil measurements')}</h2>
         <p className="step__lead">
-          Add whatever you have — a lab report or sensor reading. Every field is optional,
-          but please include the unit for any value you enter.
+          {t('Add whatever you have — a lab report or sensor reading. Every field is optional, but please include the unit for any value you enter.')}
         </p>
       </div>
 
       {/* --- Soil properties --- */}
       <section className="field-group">
-        <h3 className="field-group__title">Soil properties</h3>
+        <h3 className="field-group__title">{t('Soil properties')}</h3>
         <div className="step__grid">
           <Field
-            label="Soil pH"
+            label={t('Soil pH')}
             htmlFor="soil-ph"
-            hint="0–14. Typical agronomic range is 4.0–8.5."
+            hint={t('0–14. Typical agronomic range is 4.0–8.5.')}
             error={errors.soil_ph}
           >
             <Input
@@ -45,7 +46,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
           </Field>
 
           <div className="paired-field">
-            <Field label="Moisture" htmlFor="soil-moisture" error={errors.soil_moisture}>
+            <Field label={t('Moisture')} htmlFor="soil-moisture" error={errors.soil_moisture}>
               <Input
                 id="soil-moisture"
                 type="number"
@@ -57,7 +58,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
                 placeholder="e.g. 35"
               />
             </Field>
-            <Field label="Unit" htmlFor="soil-moisture-unit" error={errors.moisture_unit}>
+            <Field label={t('Unit')} htmlFor="soil-moisture-unit" error={errors.moisture_unit}>
               <Select id="soil-moisture-unit" value={soil.moisture_unit} onChange={update('moisture_unit')}>
                 <option value="">—</option>
                 {MOISTURE_UNITS.map((u) => (
@@ -68,7 +69,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
           </div>
 
           <div className="paired-field">
-            <Field label="Electrical conductivity" htmlFor="soil-ec" error={errors.electrical_conductivity}>
+            <Field label={t('Electrical conductivity')} htmlFor="soil-ec" error={errors.electrical_conductivity}>
               <Input
                 id="soil-ec"
                 type="number"
@@ -80,7 +81,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
                 placeholder="e.g. 1.2"
               />
             </Field>
-            <Field label="Unit" htmlFor="soil-ec-unit" error={errors.ec_unit}>
+            <Field label={t('Unit')} htmlFor="soil-ec-unit" error={errors.ec_unit}>
               <Select id="soil-ec-unit" value={soil.ec_unit} onChange={update('ec_unit')}>
                 <option value="">—</option>
                 {EC_UNITS.map((u) => (
@@ -91,7 +92,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
           </div>
 
           <div className="paired-field">
-            <Field label="Organic carbon" htmlFor="soil-oc" error={errors.organic_carbon}>
+            <Field label={t('Organic carbon')} htmlFor="soil-oc" error={errors.organic_carbon}>
               <Input
                 id="soil-oc"
                 type="number"
@@ -103,7 +104,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
                 placeholder="e.g. 0.6"
               />
             </Field>
-            <Field label="Unit" htmlFor="soil-oc-unit" error={errors.organic_carbon_unit}>
+            <Field label={t('Unit')} htmlFor="soil-oc-unit" error={errors.organic_carbon_unit}>
               <Select id="soil-oc-unit" value={soil.organic_carbon_unit} onChange={update('organic_carbon_unit')}>
                 <option value="">—</option>
                 {OC_UNITS.map((u) => (
@@ -117,12 +118,12 @@ export default function StepSoil({ soil, setSoil, errors }) {
 
       {/* --- Nutrients --- */}
       <section className="field-group">
-        <h3 className="field-group__title">Nutrients (N–P–K)</h3>
+        <h3 className="field-group__title">{t('Nutrients (N–P–K)')}</h3>
         <p className="field-group__note">
-          Nitrogen, phosphorus, and potassium must share a single unit.
+          {t('Nitrogen, phosphorus, and potassium must share a single unit.')}
         </p>
         <div className="step__grid">
-          <Field label="Nitrogen (N)" htmlFor="soil-n" error={errors.nitrogen}>
+          <Field label={t('Nitrogen (N)')} htmlFor="soil-n" error={errors.nitrogen}>
             <Input
               id="soil-n"
               type="number"
@@ -133,7 +134,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
               placeholder="e.g. 80"
             />
           </Field>
-          <Field label="Phosphorus (P)" htmlFor="soil-p" error={errors.phosphorus}>
+          <Field label={t('Phosphorus (P)')} htmlFor="soil-p" error={errors.phosphorus}>
             <Input
               id="soil-p"
               type="number"
@@ -144,7 +145,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
               placeholder="e.g. 40"
             />
           </Field>
-          <Field label="Potassium (K)" htmlFor="soil-k" error={errors.potassium}>
+          <Field label={t('Potassium (K)')} htmlFor="soil-k" error={errors.potassium}>
             <Input
               id="soil-k"
               type="number"
@@ -155,7 +156,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
               placeholder="e.g. 200"
             />
           </Field>
-          <Field label="N–P–K unit" htmlFor="soil-npk-unit" error={errors.npk_unit}>
+          <Field label={t('N–P–K unit')} htmlFor="soil-npk-unit" error={errors.npk_unit}>
             <Select id="soil-npk-unit" value={soil.npk_unit} onChange={update('npk_unit')}>
               <option value="">—</option>
               {NPK_UNITS.map((u) => (
@@ -167,8 +168,7 @@ export default function StepSoil({ soil, setSoil, errors }) {
       </section>
 
       <p className="step__hint-block">
-        Temperature, humidity, and rainfall are fetched automatically from a weather
-        service using your farm's coordinates — you don't need to enter them here.
+        {t("Temperature, humidity, and rainfall are fetched automatically from a weather service using your farm's coordinates — you don't need to enter them here.")}
       </p>
     </div>
   )

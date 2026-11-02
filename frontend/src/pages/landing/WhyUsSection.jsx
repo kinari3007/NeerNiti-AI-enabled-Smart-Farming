@@ -4,6 +4,7 @@ import StatPill from '../../components/ui/StatPill'
 import OrganicImage from '../../components/ui/OrganicImage'
 import FarmerExamineScene from '../../assets/illustrations/FarmerExamineScene'
 import { IconLeafCheck, IconCoin, IconSprout, IconData } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './WhyUsSection.css'
 
 const CAPABILITIES = [
@@ -25,14 +26,15 @@ const CAPABILITIES = [
 ]
 
 export default function WhyUsSection() {
+  const { t } = useLanguage()
   return (
     <section className="why" id="why-us">
       <div className="why__inner">
         <SectionHeading
-          eyebrow="Why Choose Us"
+          eyebrow={t('Why Choose Us')}
           eyebrowIcon={<IconSprout size={18} />}
-          title="Better decisions, healthier crops."
-          lead="Neer Niti analyzes your soil nutrients, crop needs, and environmental conditions to recommend the right fertilizer — because every field is unique."
+          title={t('Better decisions, healthier crops.')}
+          lead={t('Neer Niti analyzes your soil nutrients, crop needs, and environmental conditions to recommend the right fertilizer — because every field is unique.')}
           align="center"
         />
 
@@ -50,8 +52,8 @@ export default function WhyUsSection() {
                   {c.icon}
                 </span>
                 <div>
-                  <h3 className="why__cap-title">{c.title}</h3>
-                  <p className="why__cap-text">{c.text}</p>
+                  <h3 className="why__cap-title">{t(c.title)}</h3>
+                  <p className="why__cap-text">{t(c.text)}</p>
                 </div>
               </Card>
             ))}
@@ -59,10 +61,10 @@ export default function WhyUsSection() {
         </div>
 
         <div className="why__stats">
-          <StatPill icon={<IconSprout size={22} />} label="Higher Productivity" />
-          <StatPill icon={<IconLeafCheck size={22} />} label="Healthier Soil" />
-          <StatPill icon={<IconCoin size={22} />} label="Lower Costs" />
-          <StatPill icon={<IconData size={22} />} label="Sustainable Farming" />
+          <StatPill icon={<IconSprout size={22} />} label={t('Higher Productivity')} />
+          <StatPill icon={<IconLeafCheck size={22} />} label={t('Healthier Soil')} />
+          <StatPill icon={<IconCoin size={22} />} label={t('Lower Costs')} />
+          <StatPill icon={<IconData size={22} />} label={t('Sustainable Farming')} />
         </div>
       </div>
     </section>

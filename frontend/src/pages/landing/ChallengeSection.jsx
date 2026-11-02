@@ -3,29 +3,27 @@ import Button from '../../components/ui/Button'
 import OrganicImage from '../../components/ui/OrganicImage'
 import PlantingScene from '../../assets/illustrations/PlantingScene'
 import { IconArrow, IconSprout } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './ChallengeSection.css'
 
 export default function ChallengeSection() {
+  const { t } = useLanguage()
   return (
     <section className="challenge" id="challenge">
       <div className="challenge__text">
         <SectionHeading
-          eyebrow="The Challenge"
+          eyebrow={t('The Challenge')}
           eyebrowIcon={<IconSprout size={18} />}
-          title="Healthy soil is the foundation of every good harvest."
+          title={t('Healthy soil is the foundation of every good harvest.')}
         />
         <p className="challenge__body">
-          Many farmers struggle to determine the right fertilizer for their soil and
-          crops. The wrong choice leads to reduced yields, higher costs, and long-term
-          soil degradation. Guesswork is expensive — and the land pays the price.
+          {t('Many farmers struggle to determine the right fertilizer for their soil and crops. The wrong choice leads to reduced yields, higher costs, and long-term soil degradation. Guesswork is expensive — and the land pays the price.')}
         </p>
         <p className="challenge__body">
-          Neer Niti replaces guesswork with data. We analyze your soil nutrients, crop
-          needs, and local conditions to recommend precisely what your field requires —
-          no more, no less.
+          {t('Neer Niti replaces guesswork with data. We analyze your soil nutrients, crop needs, and local conditions to recommend precisely what your field requires — no more, no less.')}
         </p>
         <Button as="link" to="/app/analyze" variant="ghost" iconRight={<IconArrow />}>
-          Learn More
+          {t('Learn More')}
         </Button>
       </div>
 

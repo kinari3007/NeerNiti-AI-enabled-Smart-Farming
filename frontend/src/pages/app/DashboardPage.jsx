@@ -14,9 +14,11 @@ import { soilApi } from '../../api/soil'
 import { recommendationsApi } from '../../api/recommendations'
 import FarmerExamineScene from '../../assets/illustrations/FarmerExamineScene'
 import { LeafMark, IconArrow, IconSoil, IconHistory, IconProfile } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './DashboardPage.css'
 
 export default function DashboardPage() {
+  const { t } = useLanguage()
   const { activeFarmId, activeFarm, hasFarms, loading: farmsLoading, error: farmsError, reloadFarms } =
     useFarm()
   const name = session.getName()
@@ -38,16 +40,15 @@ export default function DashboardPage() {
     <Card tone="plain" className="dash-banner">
       <div className="dash-banner__content">
         <span className="dash-banner__eyebrow">
-          {name ? `Welcome back, ${name}` : 'Welcome to NeerNiti'}
+          {name ? t('Welcome back, {name}', { name }) : t('Welcome to NeerNiti')}
         </span>
-        <h1 className="dash-banner__title">Let's make your field more productive.</h1>
+        <h1 className="dash-banner__title">{t("Let's make your field more productive.")}</h1>
         <p className="dash-banner__lead">
-          Record your soil readings and get a cost-optimized fertilizer recommendation
-          tailored to your crop.
+          {t('Record your soil readings and get a cost-optimized fertilizer recommendation tailored to your crop.')}
         </p>
         <div className="dash-banner__actions">
           <Button as="link" to="/app/analyze" variant="gold" size="lg" iconRight={<IconArrow />}>
-            Analyze My Soil
+            {t('Analyze My Soil')}
           </Button>
         </div>
       </div>
@@ -65,11 +66,11 @@ export default function DashboardPage() {
         <Card tone="surface" className="dash-section">
           <EmptyState
             illustration={<LeafMark size={44} />}
-            title="Start by adding your farm"
-            message="Create your first farm to record soil readings and generate recommendations. It only takes a moment."
+            title={t('Start by adding your farm')}
+            message={t('Create your first farm to record soil readings and generate recommendations. It only takes a moment.')}
             action={
               <Button as="link" to="/app/analyze" variant="primary" iconRight={<IconArrow />}>
-                Add a farm & analyze
+                {t('Add a farm & analyze')}
               </Button>
             }
           />
@@ -85,7 +86,7 @@ export default function DashboardPage() {
       {/* Active farm bar */}
       <div className="dash-farmbar">
         <div>
-          <span className="dash-farmbar__label">Active farm</span>
+          <span className="dash-farmbar__label">{t('Active farm')}</span>
           <span className="dash-farmbar__name">
             {farmsLoading ? <Skeleton width={160} height={20} /> : activeFarm?.name || '—'}
           </span>
@@ -97,16 +98,16 @@ export default function DashboardPage() {
         {/* Soil overview */}
         <Card tone="surface" className="dash-section dash-section--soil">
           <div className="dash-section__head">
-            <h2 className="dash-section__title">Soil & nutrient overview</h2>
+            <h2 className="dash-section__title">{t('Soil & nutrient overview')}</h2>
             <Button as="link" to="/app/analyze" variant="ghost" size="md">
-              Add reading
+              {t('Add reading')}
             </Button>
           </div>
 
           {summary.loading && <Skeleton width="100%" height={120} radius={14} />}
           {summary.error && (
             <ErrorState
-              title="Couldn't load soil data"
+              title={t("Couldn't load soil data")}
               message={summary.error.message}
               onRetry={summary.reload}
             />
@@ -127,19 +128,19 @@ export default function DashboardPage() {
 
         {/* Quick navigation */}
         <Card tone="sage" className="dash-section dash-quicknav">
-          <h2 className="dash-section__title">Quick actions</h2>
+          <h2 className="dash-section__title">{t('Quick actions')}</h2>
           <div className="dash-quicknav__list">
             <Link to="/app/analyze" className="dash-quicknav__item">
               <IconSoil />
-              <span>Analyze Soil</span>
+              <span>{t('Analyze Soil')}</span>
             </Link>
             <Link to="/app/history" className="dash-quicknav__item">
               <IconHistory />
-              <span>View History</span>
+              <span>{t('View History')}</span>
             </Link>
             <Link to="/app/profile" className="dash-quicknav__item">
               <IconProfile />
-              <span>Farm Profile</span>
+              <span>{t('Farm Profile')}</span>
             </Link>
           </div>
         </Card>
@@ -148,10 +149,10 @@ export default function DashboardPage() {
       {/* Recent recommendations */}
       <Card tone="surface" className="dash-section">
         <div className="dash-section__head">
-          <h2 className="dash-section__title">Recent recommendations</h2>
+          <h2 className="dash-section__title">{t('Recent recommendations')}</h2>
           {recs.data?.length > 0 && (
             <Button as="link" to="/app/history" variant="ghost" size="md" iconRight={<IconArrow />}>
-              View all
+              {t('View all')}
             </Button>
           )}
         </div>
@@ -165,7 +166,7 @@ export default function DashboardPage() {
 
         {recs.error && (
           <ErrorState
-            title="Couldn't load recommendations"
+            title={t("Couldn't load recommendations")}
             message={recs.error.message}
             onRetry={recs.reload}
           />
@@ -174,11 +175,11 @@ export default function DashboardPage() {
         {!recs.loading && !recs.error && recs.data?.length === 0 && (
           <EmptyState
             illustration={<LeafMark size={40} />}
-            title="No recommendations yet"
-            message="Run your first soil analysis to see personalized fertilizer recommendations here."
+            title={t('No recommendations yet')}
+            message={t('Run your first soil analysis to see personalized fertilizer recommendations here.')}
             action={
               <Button as="link" to="/app/analyze" variant="primary" iconRight={<IconArrow />}>
-                Analyze My Soil
+                {t('Analyze My Soil')}
               </Button>
             }
           />
@@ -196,7 +197,7 @@ export default function DashboardPage() {
       {farmsError && (
         <Card tone="surface" className="dash-section">
           <ErrorState
-            title="Couldn't load your farms"
+            title={t("Couldn't load your farms")}
             message={farmsError.message}
             onRetry={reloadFarms}
           />

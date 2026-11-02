@@ -1,9 +1,11 @@
 import Button from '../../components/ui/Button'
 import HeroScene from '../../assets/illustrations/HeroScene'
 import { IconArrow, IconPlay } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './HeroSection.css'
 
 export default function HeroSection() {
+  const { t } = useLanguage()
   return (
     <section className="hero">
       <div className="hero__art" aria-hidden="false">
@@ -13,20 +15,19 @@ export default function HeroSection() {
 
       <div className="hero__content">
         <h1 className="hero__title">
-          Grow Better.
+          {t('Grow Better.')}
           <br />
-          Farm Smarter.
+          {t('Farm Smarter.')}
         </h1>
         <p className="hero__lead">
-          AI-powered soil analysis and personalized fertilizer recommendations for
-          healthier crops, lower costs, and higher yields — because every field is unique.
+          {t('AI-powered soil analysis and personalized fertilizer recommendations for healthier crops, lower costs, and higher yields — because every field is unique.')}
         </p>
         <div className="hero__actions">
           <Button as="link" to="/app/analyze" variant="primary" size="lg" iconRight={<IconArrow />}>
-            Analyze My Soil
+            {t('Analyze My Soil')}
           </Button>
           <Button as="a" href="#how-it-works" variant="ghost-light" size="lg" iconLeft={<IconPlay />}>
-            Learn How It Works
+            {t('Learn How It Works')}
           </Button>
         </div>
       </div>

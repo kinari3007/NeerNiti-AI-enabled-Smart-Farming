@@ -2,6 +2,11 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Languages
+
+The NeerNiti interface supports English and Gujarati. Use the language toggle in the
+landing-page navigation or the app header; your choice is saved in this browser.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

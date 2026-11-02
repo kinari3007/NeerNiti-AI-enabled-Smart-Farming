@@ -2,6 +2,7 @@ import Card from '../../components/ui/Card'
 import SectionHeading from '../../components/ui/SectionHeading'
 import StepItem from '../../components/ui/StepItem'
 import { IconData } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './HowItWorksSection.css'
 
 const STEPS = [
@@ -28,22 +29,23 @@ const STEPS = [
 ]
 
 export default function HowItWorksSection() {
+  const { t } = useLanguage()
   return (
     <section className="how" id="how-it-works">
       <div className="how__inner">
         <Card tone="cream" className="how__card">
           <SectionHeading
-            eyebrow="How It Works"
+            eyebrow={t('How It Works')}
             eyebrowIcon={<IconData size={18} />}
-            title="From soil sample to smart decision in four steps."
+            title={t('From soil sample to smart decision in four steps.')}
           />
           <ol className="how__steps">
             {STEPS.map((step, i) => (
               <StepItem
                 key={i}
                 number={i + 1}
-                title={step.title}
-                description={step.description}
+                title={t(step.title)}
+                description={t(step.description)}
                 last={i === STEPS.length - 1}
               />
             ))}

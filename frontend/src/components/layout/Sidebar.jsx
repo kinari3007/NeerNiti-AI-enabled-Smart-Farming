@@ -8,16 +8,18 @@ import {
   IconProfile,
   IconClose,
 } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './Sidebar.css'
 
-const NAV_ITEMS = [
-  { to: '/app', label: 'Home', icon: <IconHome />, end: true },
-  { to: '/app/analyze', label: 'Analyze Soil', icon: <IconSoil /> },
-  { to: '/app/history', label: 'History', icon: <IconHistory /> },
-  { to: '/app/profile', label: 'Profile', icon: <IconProfile /> },
-]
-
 export default function Sidebar({ open, onClose }) {
+  const { t } = useLanguage()
+  const navItems = [
+    { to: '/app', label: t('Home'), icon: <IconHome />, end: true },
+    { to: '/app/analyze', label: t('Analyze Soil'), icon: <IconSoil /> },
+    { to: '/app/history', label: t('History'), icon: <IconHistory /> },
+    { to: '/app/profile', label: t('Profile'), icon: <IconProfile /> },
+  ]
+
   return (
     <>
       <div
@@ -31,16 +33,16 @@ export default function Sidebar({ open, onClose }) {
             <LeafMark size={30} />
             <span className="sidebar__brand-text">
               <span className="sidebar__brand-name">NeerNiti</span>
-              <span className="sidebar__brand-tag">Smarter Soil. Better Harvests.</span>
+              <span className="sidebar__brand-tag">{t('Smarter Soil. Better Harvests.')}</span>
             </span>
           </Link>
-          <button className="sidebar__close" onClick={onClose} aria-label="Close menu">
+          <button className="sidebar__close" onClick={onClose} aria-label={t('Close menu')}>
             <IconClose size={22} />
           </button>
         </div>
 
-        <nav className="sidebar__nav" aria-label="Main navigation">
-          {NAV_ITEMS.map((item) => (
+        <nav className="sidebar__nav" aria-label={t('Main navigation')}>
+          {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -58,7 +60,7 @@ export default function Sidebar({ open, onClose }) {
 
         <div className="sidebar__footer">
           <LeafSprig className="sidebar__sprig" />
-          <p className="sidebar__quote">"Healthy soil builds a better tomorrow."</p>
+          <p className="sidebar__quote">"{t('Healthy soil builds a better tomorrow.')}"</p>
         </div>
       </aside>
     </>

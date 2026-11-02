@@ -1,6 +1,7 @@
 import { Field, Input, Select } from '../../../components/ui/Field'
 import { AREA_UNITS } from '../../../api/farms'
 import { useFarm } from '../../../context/farm-context'
+import { useLanguage } from '../../../context/language-context'
 import './analyze.css'
 
 /**
@@ -9,16 +10,16 @@ import './analyze.css'
  */
 export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors }) {
   const { farms, activeFarmId, setActiveFarmId, hasFarms } = useFarm()
+  const { t } = useLanguage()
 
   const update = (key) => (e) => setNewFarm((f) => ({ ...f, [key]: e.target.value }))
 
   return (
     <div className="step">
       <div className="step__intro">
-        <h2 className="step__title">Which farm are we analyzing?</h2>
+        <h2 className="step__title">{t('Which farm are we analyzing?')}</h2>
         <p className="step__lead">
-          Pick an existing farm or add a new one. Coordinates are optional but let us
-          fetch local weather for your analysis.
+          {t('Pick an existing farm or add a new one. Coordinates are optional but let us fetch local weather for your analysis.')}
         </p>
       </div>
 
@@ -29,20 +30,20 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
             className={`farm-mode__btn ${mode === 'existing' ? 'farm-mode__btn--active' : ''}`}
             onClick={() => setMode('existing')}
           >
-            Use an existing farm
+            {t('Use an existing farm')}
           </button>
           <button
             type="button"
             className={`farm-mode__btn ${mode === 'new' ? 'farm-mode__btn--active' : ''}`}
             onClick={() => setMode('new')}
           >
-            Add a new farm
+            {t('Add a new farm')}
           </button>
         </div>
       )}
 
       {mode === 'existing' && hasFarms ? (
-        <Field label="Select farm" htmlFor="farm-select">
+        <Field label={t('Select farm')} htmlFor="farm-select">
           <Select
             id="farm-select"
             value={activeFarmId}
@@ -59,7 +60,7 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
       ) : (
         <div className="step__grid">
           <Field
-            label="Farm name"
+            label={t('Farm name')}
             htmlFor="farm-name"
             required
             error={errors.name}
@@ -69,15 +70,15 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
               id="farm-name"
               value={newFarm.name}
               onChange={update('name')}
-              placeholder="e.g. Green Valley Farm"
+              placeholder={t('e.g. Green Valley Farm')}
               maxLength={255}
             />
           </Field>
 
           <Field
-            label="Area"
+            label={t('Area')}
             htmlFor="farm-area"
-            hint="Optional. Used to scale total fertilizer quantities."
+            hint={t('Optional. Used to scale total fertilizer quantities.')}
             error={errors.area_value}
           >
             <Input
@@ -91,7 +92,7 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
             />
           </Field>
 
-          <Field label="Area unit" htmlFor="farm-area-unit">
+          <Field           label={t('Area unit')} htmlFor="farm-area-unit">
             <Select id="farm-area-unit" value={newFarm.area_unit} onChange={update('area_unit')}>
               {AREA_UNITS.map((u) => (
                 <option key={u} value={u}>
@@ -102,9 +103,9 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
           </Field>
 
           <Field
-            label="Latitude"
+            label={t('Latitude')}
             htmlFor="farm-lat"
-            hint="Optional — provide with longitude for weather."
+            hint={t('Optional — provide with longitude for weather.')}
             error={errors.latitude}
           >
             <Input
@@ -117,7 +118,7 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
             />
           </Field>
 
-          <Field label="Longitude" htmlFor="farm-lon" error={errors.longitude}>
+          <Field           label={t('Longitude')} htmlFor="farm-lon" error={errors.longitude}>
             <Input
               id="farm-lon"
               type="number"
@@ -129,16 +130,16 @@ export default function StepFarm({ mode, setMode, newFarm, setNewFarm, errors })
           </Field>
 
           <Field
-            label="Location description"
+            label={t('Location description')}
             htmlFor="farm-loc"
-            hint="Optional."
+            hint={t('Optional.')}
             className="step__grid-full"
           >
             <Input
               id="farm-loc"
               value={newFarm.location_description}
               onChange={update('location_description')}
-              placeholder="e.g. Village Rampur, District Agra"
+              placeholder={t('e.g. Village Rampur, District Agra')}
               maxLength={500}
             />
           </Field>

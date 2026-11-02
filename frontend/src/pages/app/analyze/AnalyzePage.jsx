@@ -15,9 +15,8 @@ import { soilApi } from '../../../api/soil'
 import { cropsApi } from '../../../api/crops'
 import { recommendationsApi } from '../../../api/recommendations'
 import { IconArrow } from '../../../assets/illustrations/decor'
+import { useLanguage } from '../../../context/language-context'
 import './analyze.css'
-
-const STEPS = [{ label: 'Farm' }, { label: 'Soil' }, { label: 'Crop & Options' }]
 
 const EMPTY_FARM = {
   name: '',
@@ -55,6 +54,7 @@ const num = (v) => (v === '' || v == null ? null : Number(v))
 export default function AnalyzePage() {
   const navigate = useNavigate()
   const toast = useToast()
+  const { t } = useLanguage()
   const { hasFarms, activeFarmId, setActiveFarmId, reloadFarms } = useFarm()
 
   const [step, setStep] = useState(0)
@@ -67,6 +67,11 @@ export default function AnalyzePage() {
 
   const [crops, setCrops] = useState([])
   const [cropsLoading, setCropsLoading] = useState(true)
+  const steps = [
+    { label: t('Farm') },
+    { label: t('Soil') },
+    { label: t('Crop & Options') },
+  ]
 
   // Default to "new farm" mode when the farmer has no farms yet.
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -79,7 +84,7 @@ export default function AnalyzePage() {
     cropsApi
       .list()
       .then((data) => setCrops(data || []))
-      .catch(() => toast.error('Could not load the crop list.'))
+      .catch(() => toast.error(t('Could not load the crop list.')))
       .finally(() => setCropsLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -89,22 +94,22 @@ export default function AnalyzePage() {
   function validateFarmStep() {
     const e = {}
     if (mode === 'new') {
-      if (!newFarm.name.trim()) e.name = 'Please enter a farm name.'
+      if (!newFarm.name.trim()) e.name = t('Please enter a farm name.')
       if (newFarm.area_value !== '' && Number(newFarm.area_value) <= 0)
-        e.area_value = 'Area must be greater than 0.'
+        e.area_value = t('Area must be greater than 0.')
       const latSet = newFarm.latitude !== ''
       const lonSet = newFarm.longitude !== ''
       if (latSet !== lonSet) {
-        const msg = 'Provide latitude and longitude together, or neither.'
+        const msg = t('Provide latitude and longitude together, or neither.')
         if (!latSet) e.latitude = msg
         if (!lonSet) e.longitude = msg
       }
       if (latSet && (Number(newFarm.latitude) < -90 || Number(newFarm.latitude) > 90))
-        e.latitude = 'Latitude must be between -90 and 90.'
+        e.latitude = t('Latitude must be between -90 and 90.')
       if (lonSet && (Number(newFarm.longitude) < -180 || Number(newFarm.longitude) > 180))
-        e.longitude = 'Longitude must be between -180 and 180.'
+        e.longitude = t('Longitude must be between -180 and 180.')
     } else if (!activeFarmId) {
-      e.name = 'Please select a farm.'
+      e.name = t('Please select a farm.')
     }
     setErrors(e)
     return Object.keys(e).length === 0
@@ -115,8 +120,13 @@ export default function AnalyzePage() {
     const rangeCheck = (key, min, max, label) => {
       if (soil[key] !== '') {
         const v = Number(soil[key])
-        if (Number.isNaN(v)) e[key] = `${label} must be a number.`
-        else if (v < min || v > max) e[key] = `${label} must be between ${min} and ${max}.`
+        if (Number.isNaN(v)) e[key] = t('{field} must be a number.', { field: t(label) })
+        else if (v < min || v > max)
+          e[key] = t('{field} must be between {min} and {max}.', {
+            field: t(label),
+            min,
+            max,
+          })
       }
     }
     rangeCheck('soil_ph', 0, 14, 'pH')
@@ -129,13 +139,13 @@ export default function AnalyzePage() {
 
     // Unit-required-when-value rules (mirror backend)
     if (soil.soil_moisture !== '' && !soil.moisture_unit)
-      e.moisture_unit = 'Select a moisture unit.'
+      e.moisture_unit = t('Select a moisture unit.')
     if (soil.electrical_conductivity !== '' && !soil.ec_unit)
-      e.ec_unit = 'Select an EC unit.'
+      e.ec_unit = t('Select an EC unit.')
     if (soil.organic_carbon !== '' && !soil.organic_carbon_unit)
-      e.organic_carbon_unit = 'Select an organic carbon unit.'
+      e.organic_carbon_unit = t('Select an organic carbon unit.')
     const npkEntered = soil.nitrogen !== '' || soil.phosphorus !== '' || soil.potassium !== ''
-    if (npkEntered && !soil.npk_unit) e.npk_unit = 'Select an N–P–K unit.'
+    if (npkEntered && !soil.npk_unit) e.npk_unit = t('Select an N–P–K unit.')
 
     setErrors(e)
     return Object.keys(e).length === 0
@@ -143,10 +153,10 @@ export default function AnalyzePage() {
 
   function validateCropStep() {
     const e = {}
-    if (!crop.crop_name) e.crop_name = 'Please select a crop.'
-    if (!crop.growth_stage) e.growth_stage = 'Please select a growth stage.'
+    if (!crop.crop_name) e.crop_name = t('Please select a crop.')
+    if (!crop.growth_stage) e.growth_stage = t('Please select a growth stage.')
     if (crop.area_ha !== '' && Number(crop.area_ha) <= 0)
-      e.area_ha = 'Area must be greater than 0.'
+      e.area_ha = t('Area must be greater than 0.')
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -157,7 +167,7 @@ export default function AnalyzePage() {
     if (step === 0 && !validateFarmStep()) return
     if (step === 1 && !validateSoilStep()) return
     setErrors({})
-    setStep((s) => Math.min(s + 1, STEPS.length - 1))
+    setStep((s) => Math.min(s + 1, steps.length - 1))
   }
 
   function back() {
@@ -193,7 +203,7 @@ export default function AnalyzePage() {
         farmId = created.id
         await reloadFarms()
         setActiveFarmId(farmId)
-        toast.success(`Farm "${created.name}" created.`)
+        toast.success(t('Farm "{name}" created.', { name: created.name }))
       }
 
       // 2. Submit a soil reading (only if the farmer entered any measurement)
@@ -226,10 +236,10 @@ export default function AnalyzePage() {
       }
       const rec = await recommendationsApi.create(farmId, recPayload)
 
-      toast.success('Recommendation generated.')
+      toast.success(t('Recommendation generated.'))
       navigate(`/app/recommendations/${rec.id}`)
     } catch (err) {
-      toast.error(err.message || 'Something went wrong. Please try again.')
+      toast.error(t(err.message || 'Something went wrong. Please try again.'))
       setSubmitting(false)
     }
   }
@@ -237,13 +247,13 @@ export default function AnalyzePage() {
   return (
     <div className="wizard">
       <PageHeader
-        eyebrow="Analyze Soil"
-        title="Generate a fertilizer recommendation"
-        subtitle="Three quick steps: choose your farm, enter any soil measurements you have, and pick your crop."
+        eyebrow={t('Analyze Soil')}
+        title={t('Generate a fertilizer recommendation')}
+        subtitle={t('Three quick steps: choose your farm, enter any soil measurements you have, and pick your crop.')}
       />
 
       <Card tone="surface" className="wizard__card">
-        <Stepper steps={STEPS} current={step} />
+        <Stepper steps={steps} current={step} />
 
         {step === 0 && (
           <StepFarm
@@ -268,25 +278,25 @@ export default function AnalyzePage() {
         <div className="wizard__footer">
           {step > 0 ? (
             <Button variant="ghost" onClick={back} disabled={submitting}>
-              Back
+              {t('Back')}
             </Button>
           ) : (
             <span />
           )}
 
           <div className="wizard__footer-right">
-            {step < STEPS.length - 1 ? (
+            {step < steps.length - 1 ? (
               <Button variant="primary" onClick={next} iconRight={<IconArrow />}>
-                Continue
+                {t('Continue')}
               </Button>
             ) : (
               <Button variant="gold" onClick={handleSubmit} disabled={submitting}>
                 {submitting ? (
                   <>
-                    <Spinner size={16} /> Generating…
+                    <Spinner size={16} /> {t('Generating…')}
                   </>
                 ) : (
-                  'Get Recommendation'
+                  t('Get Recommendation')
                 )}
               </Button>
             )}

@@ -14,11 +14,13 @@ import { session } from '../../api/session'
 import { farmsApi, AREA_UNITS } from '../../api/farms'
 import { formatDateTime } from '../../utils/format'
 import { LeafMark, IconArrow, IconProfile } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './ProfilePage.css'
 
 export default function ProfilePage() {
   const navigate = useNavigate()
   const toast = useToast()
+  const { t } = useLanguage()
   const { activeFarm, hasFarms, loading: farmsLoading, reloadFarms, setActiveFarmId } = useFarm()
 
   const [name, setName] = useState(session.getName())
@@ -56,23 +58,23 @@ export default function ProfilePage() {
     session.setName(name.trim())
     setTimeout(() => {
       setSavingName(false)
-      toast.success('Your name has been saved.')
+      toast.success(t('Your name has been saved.'))
     }, 150)
   }
 
   function validateFarm() {
     const e = {}
-    if (!farmForm.name.trim()) e.name = 'Farm name is required.'
+    if (!farmForm.name.trim()) e.name = t('Farm name is required.')
     const latSet = farmForm.latitude !== '' && farmForm.latitude != null
     const lonSet = farmForm.longitude !== '' && farmForm.longitude != null
     if (latSet !== lonSet) {
-      const msg = 'Provide latitude and longitude together, or neither.'
+      const msg = t('Provide latitude and longitude together, or neither.')
       if (!latSet) e.latitude = msg
       if (!lonSet) e.longitude = msg
     }
     if (farmForm.irrigation_water_ph !== '' && farmForm.irrigation_water_ph != null) {
       const ph = Number(farmForm.irrigation_water_ph)
-      if (ph < 0 || ph > 14) e.irrigation_water_ph = 'pH must be between 0 and 14.'
+      if (ph < 0 || ph > 14) e.irrigation_water_ph = t('pH must be between 0 and 14.')
     }
     setFarmErrors(e)
     return Object.keys(e).length === 0
@@ -94,9 +96,9 @@ export default function ProfilePage() {
       }
       await farmsApi.update(activeFarm.id, payload)
       await reloadFarms()
-      toast.success('Farm details updated.')
+      toast.success(t('Farm details updated.'))
     } catch (err) {
-      toast.error(err.message || 'Could not update the farm.')
+      toast.error(t(err.message || 'Could not update the farm.'))
     } finally {
       setSavingFarm(false)
     }
@@ -106,7 +108,7 @@ export default function ProfilePage() {
     session.clear()
     setActiveFarmId('')
     setLogoutOpen(false)
-    toast.info('Signed out on this device.')
+    toast.info(t('Signed out on this device.'))
     navigate('/')
   }
 
@@ -115,9 +117,9 @@ export default function ProfilePage() {
   return (
     <>
       <PageHeader
-        eyebrow="Profile"
-        title="Your profile & farm"
-        subtitle="Manage your display name and the details of your selected farm."
+        eyebrow={t('Profile')}
+        title={t('Your profile & farm')}
+        subtitle={t('Manage your display name and the details of your selected farm.')}
         actions={hasFarms ? <FarmSwitcher /> : null}
       />
 
@@ -125,54 +127,52 @@ export default function ProfilePage() {
       <Card tone="sage" className="profile-note">
         <IconProfile size={22} />
         <p>
-          This app currently runs without server-side accounts. Your name and selected
-          farm are stored only on this device. Farm records themselves are saved on the
-          server.
+          {t('This app currently runs without server-side accounts. Your name and selected farm are stored only on this device. Farm records themselves are saved on the server.')}
         </p>
       </Card>
 
       <div className="profile-grid">
         {/* Farmer info */}
         <Card tone="surface" className="profile-card">
-          <h2 className="profile-card__title">Farmer details</h2>
+          <h2 className="profile-card__title">{t('Farmer details')}</h2>
           <Field
-            label="Display name"
+            label={t('Display name')}
             htmlFor="profile-name"
-            hint="Used to greet you across the app."
+            hint={t('Used to greet you across the app.')}
           >
             <Input
               id="profile-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Ramesh Kumar"
+              placeholder={t('e.g. Ramesh Kumar')}
               maxLength={80}
             />
           </Field>
           <div className="profile-card__actions">
             <Button variant="primary" onClick={saveName} disabled={savingName}>
-              {savingName ? 'Saving…' : 'Save name'}
+              {savingName ? t('Saving…') : t('Save name')}
             </Button>
           </div>
         </Card>
 
         {/* Farm details */}
         <Card tone="surface" className="profile-card profile-card--wide">
-          <h2 className="profile-card__title">Farm details</h2>
+          <h2 className="profile-card__title">{t('Farm details')}</h2>
 
           {farmsLoading && (
             <div className="profile-loading">
-              <Spinner /> <span>Loading your farm…</span>
+              <Spinner /> <span>{t('Loading your farm…')}</span>
             </div>
           )}
 
           {!farmsLoading && !hasFarms && (
             <EmptyState
               illustration={<LeafMark size={40} />}
-              title="No farm yet"
-              message="Add your first farm through the soil analysis flow."
+              title={t('No farm yet')}
+              message={t('Add your first farm through the soil analysis flow.')}
               action={
                 <Button as="link" to="/app/analyze" variant="primary" iconRight={<IconArrow />}>
-                  Analyze My Soil
+                  {t('Analyze My Soil')}
                 </Button>
               }
             />
@@ -181,11 +181,11 @@ export default function ProfilePage() {
           {!farmsLoading && hasFarms && farmForm && (
             <>
               <div className="profile-form-grid">
-                <Field label="Farm name" htmlFor="pf-name" required error={farmErrors.name} className="profile-full">
+                <Field label={t('Farm name')} htmlFor="pf-name" required error={farmErrors.name} className="profile-full">
                   <Input id="pf-name" value={farmForm.name} onChange={update('name')} maxLength={255} />
                 </Field>
 
-                <Field label="Area" htmlFor="pf-area">
+                <Field label={t('Area')} htmlFor="pf-area">
                   <Input
                     id="pf-area"
                     type="number"
@@ -196,7 +196,7 @@ export default function ProfilePage() {
                     placeholder="e.g. 2.5"
                   />
                 </Field>
-                <Field label="Area unit" htmlFor="pf-area-unit">
+                <Field label={t('Area unit')} htmlFor="pf-area-unit">
                   <Select id="pf-area-unit" value={farmForm.area_unit} onChange={update('area_unit')}>
                     {AREA_UNITS.map((u) => (
                       <option key={u} value={u}>{u}</option>
@@ -204,7 +204,7 @@ export default function ProfilePage() {
                   </Select>
                 </Field>
 
-                <Field label="Latitude" htmlFor="pf-lat" error={farmErrors.latitude}>
+                <Field label={t('Latitude')} htmlFor="pf-lat" error={farmErrors.latitude}>
                   <Input
                     id="pf-lat"
                     type="number"
@@ -214,7 +214,7 @@ export default function ProfilePage() {
                     placeholder="e.g. 28.6139"
                   />
                 </Field>
-                <Field label="Longitude" htmlFor="pf-lon" error={farmErrors.longitude}>
+                <Field label={t('Longitude')} htmlFor="pf-lon" error={farmErrors.longitude}>
                   <Input
                     id="pf-lon"
                     type="number"
@@ -225,24 +225,24 @@ export default function ProfilePage() {
                   />
                 </Field>
 
-                <Field label="Location" htmlFor="pf-loc" className="profile-full">
+                <Field label={t('Location')} htmlFor="pf-loc" className="profile-full">
                   <Input
                     id="pf-loc"
                     value={farmForm.location_description}
                     onChange={update('location_description')}
-                    placeholder="Village, district, state"
+                    placeholder={t('Village, district, state')}
                     maxLength={500}
                   />
                 </Field>
               </div>
 
               <div className="profile-subsection">
-                <h3 className="profile-subsection__title">Irrigation water</h3>
+                <h3 className="profile-subsection__title">{t('Irrigation water')}</h3>
                 <div className="profile-form-grid">
                   <Field
-                    label="Irrigation water pH"
+                    label={t('Irrigation water pH')}
                     htmlFor="pf-iph"
-                    hint="Optional. 0–14. Surfaced as advisory context in recommendations."
+                    hint={t('Optional. 0–14. Surfaced as advisory context in recommendations.')}
                     error={farmErrors.irrigation_water_ph}
                   >
                     <Input
@@ -256,12 +256,12 @@ export default function ProfilePage() {
                       placeholder="e.g. 7.2"
                     />
                   </Field>
-                  <Field label="pH source" htmlFor="pf-iph-src" hint="Optional.">
+                  <Field label={t('pH source')} htmlFor="pf-iph-src" hint={t('Optional.')}>
                     <Input
                       id="pf-iph-src"
                       value={farmForm.irrigation_water_ph_source}
                       onChange={update('irrigation_water_ph_source')}
-                      placeholder="e.g. pH meter"
+                      placeholder={t('e.g. pH meter')}
                       maxLength={100}
                     />
                   </Field>
@@ -269,12 +269,12 @@ export default function ProfilePage() {
               </div>
 
               {activeFarm?.updated_at && (
-                <p className="profile-meta">Last updated {formatDateTime(activeFarm.updated_at)}</p>
+                <p className="profile-meta">{t('Last updated {date}', { date: formatDateTime(activeFarm.updated_at) })}</p>
               )}
 
               <div className="profile-card__actions">
                 <Button variant="gold" onClick={saveFarm} disabled={savingFarm}>
-                  {savingFarm ? 'Saving…' : 'Save farm details'}
+                  {savingFarm ? t('Saving…') : t('Save farm details')}
                 </Button>
               </div>
             </>
@@ -284,14 +284,13 @@ export default function ProfilePage() {
 
       {/* Account actions */}
       <Card tone="surface" className="profile-card">
-        <h2 className="profile-card__title">Account</h2>
+        <h2 className="profile-card__title">{t('Account')}</h2>
         <p className="profile-account__text">
-          Signing out clears your name and selected farm from this device. Your farm and
-          recommendation records on the server are not deleted.
+          {t('Signing out clears your name and selected farm from this device. Your farm and recommendation records on the server are not deleted.')}
         </p>
         <div className="profile-card__actions">
           <Button variant="ghost" onClick={() => setLogoutOpen(true)}>
-            Sign out
+            {t('Sign out')}
           </Button>
         </div>
       </Card>
@@ -300,10 +299,10 @@ export default function ProfilePage() {
         open={logoutOpen}
         onClose={() => setLogoutOpen(false)}
         onConfirm={handleLogout}
-        title="Sign out?"
-        message="This clears your name and selected farm from this device. You can set them again anytime."
-        confirmLabel="Sign out"
-        cancelLabel="Stay"
+        title={t('Sign out?')}
+        message={t('This clears your name and selected farm from this device. You can set them again anytime.')}
+        confirmLabel={t('Sign out')}
+        cancelLabel={t('Stay')}
       />
     </>
   )

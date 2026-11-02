@@ -3,6 +3,7 @@ import { Badge } from '../ui/Feedback'
 import { OPTIMIZATION_STATUS } from '../../api/recommendations'
 import { formatDateTime, formatMoney } from '../../utils/format'
 import { IconArrow, IconSprout } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './RecommendationCard.css'
 
 /**
@@ -10,6 +11,7 @@ import './RecommendationCard.css'
  * Shows only real backend data: ML-suggested category, status, cost, date.
  */
 export default function RecommendationCard({ recommendation }) {
+  const { t } = useLanguage()
   const rec = recommendation
   const statusInfo = OPTIMIZATION_STATUS[rec.optimization_status] || {
     label: rec.optimization_status,
@@ -25,7 +27,7 @@ export default function RecommendationCard({ recommendation }) {
         </span>
         <div className="rec-card__headline">
           <span className="rec-card__suggested">
-            {suggested ? suggested : 'Recommendation'}
+            {suggested ? t(suggested) : t('Recommendation')}
           </span>
           <span className="rec-card__date">{formatDateTime(rec.created_at)}</span>
         </div>
@@ -35,11 +37,11 @@ export default function RecommendationCard({ recommendation }) {
       </div>
 
       <div className="rec-card__meta">
-        <Badge tone={statusInfo.tone}>{statusInfo.label}</Badge>
+        <Badge tone={statusInfo.tone}>{t(statusInfo.label)}</Badge>
         {rec.estimated_total_cost != null && (
           <span className="rec-card__cost">
             {formatMoney(rec.estimated_total_cost, rec.cost_currency || 'INR')}
-            <span className="rec-card__cost-label"> est. total</span>
+            <span className="rec-card__cost-label">{t(' est. total')}</span>
           </span>
         )}
       </div>

@@ -1,6 +1,7 @@
 import { useFarm } from '../../context/farm-context'
 import { Select } from '../ui/Field'
 import { IconSoil } from '../../assets/illustrations/decor'
+import { useLanguage } from '../../context/language-context'
 import './FarmSwitcher.css'
 
 /**
@@ -9,6 +10,7 @@ import './FarmSwitcher.css'
  */
 export default function FarmSwitcher() {
   const { farms, activeFarmId, setActiveFarmId } = useFarm()
+  const { t } = useLanguage()
 
   if (!farms.length) return null
 
@@ -18,7 +20,7 @@ export default function FarmSwitcher() {
         <IconSoil size={18} />
       </span>
       <label className="sr-only" htmlFor="farm-switcher-select">
-        Active farm
+        {t('Active farm')}
       </label>
       <Select
         id="farm-switcher-select"

@@ -56,11 +56,20 @@
   color: var(--color-forest-green);
 }
 
+.landing-nav__inner > .language-toggle {
+  margin-left: var(--space-2);
+}
+
 @media (max-width: 860px) {
   .landing-nav__links {
     display: none;
   }
   .landing-nav__inner {
     justify-content: space-between;
+    gap: var(--space-2);
+    padding-inline: var(--space-3);
+  }
+  .landing-nav__brand-tag {
+    display: none;
   }
 }

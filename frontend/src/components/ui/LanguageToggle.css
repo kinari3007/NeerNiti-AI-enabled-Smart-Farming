@@ -1,0 +1,18 @@
+.language-toggle {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  color: var(--color-forest-green);
+  background-color: var(--color-surface);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.language-toggle:hover {
+  border-color: var(--color-forest-green);
+  background-color: var(--color-warm-cream);
+}
